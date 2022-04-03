@@ -12,6 +12,13 @@ export const App = () => {
   // 完了のTODOをstate化
   const [completeTodos, setCompleteTodos] = useState(["ccc"]);
 
+  //追加した時の動作  (配列の結合　 スプレッド構文)
+  const onClickAdd = () => {
+    if (todoText === "") return; //追加した時に空文字だったら処理を走らせない
+    const newTodos = [...incompleteTodos, todoText];
+    setIncompleteTodos(newTodos);
+    setTodoText(""); //追加したらから文字にする
+  };
   return (
     <>
       <div className="input-area">
@@ -20,7 +27,7 @@ export const App = () => {
           value={todoText}
           onChange={onChangeTodoText}
         />
-        <button>追加</button>
+        <button onClick={onClickAdd}>追加</button>
       </div>
       <div className="incomplete-area">
         <p className="title">未完了のTODO</p>
