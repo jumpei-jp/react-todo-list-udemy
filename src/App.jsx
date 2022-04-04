@@ -7,10 +7,10 @@ export const App = () => {
 
   const onChangeTodoText = (event) => setTodoText(event.target.value);
   // 未完了のTODOを保存
-  const [incompleteTodos, setIncompleteTodos] = useState(["aaa", "bbb"]);
+  const [incompleteTodos, setIncompleteTodos] = useState([]);
 
   // 完了のTODOをstate化
-  const [completeTodos, setCompleteTodos] = useState(["ccc"]);
+  const [completeTodos, setCompleteTodos] = useState([]);
 
   //追加した時の動作  (配列の結合　 スプレッド構文)
   const onClickAdd = () => {
@@ -37,6 +37,17 @@ export const App = () => {
     const newCompleteTodos = [...completeTodos, incompleteTodos[index]]; //クリックされた要素の行を取得
     setIncompleteTodos(newIncompleteTodos);
     setCompleteTodos(newCompleteTodos);
+  };
+
+  const onClickBack = (index) => {
+    //完了のToDoから削除
+    const newCompleteTodos = [...completeTodos];
+    newCompleteTodos.splice(index, 1);
+
+    //未完了のToDoから削除
+    const newIncompleteTodos = [...incompleteTodos, completeTodos[index]];
+    setCompleteTodos(newCompleteTodos);
+    setIncompleteTodos(newIncompleteTodos);
   };
   return (
     <>
@@ -65,11 +76,11 @@ export const App = () => {
       <div className="complete-area">
         <p className="title">完了のTODO</p>
         <ul>
-          {completeTodos.map((todo) => {
+          {completeTodos.map((todo, index) => {
             return (
               <div key={todo} className="list-row">
                 <li>{todo}</li>
-                <button>戻す</button>
+                <button onClick={() => onClickBack(index)}>戻す</button>
               </div>
             );
           })}
